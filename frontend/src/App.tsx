@@ -1,37 +1,78 @@
-import { Music, Mic, Settings, LogOut, MessageSquare, Sparkles, ShieldCheck, Plus, Image as ImageIcon, Link as LinkIcon, FileAudio, ChevronRight, Globe, Layers, Zap } from 'lucide-react'
+import { Music, Mic, Settings, LogOut, MessageSquare, Sparkles, Plus, Image as ImageIcon, Link as LinkIcon, FileAudio, ChevronRight, Globe, Layers, Zap, Piano } from 'lucide-react'
 import { AudioAnalyzer } from './components/AudioAnalyzer'
 import { ChatAssistant } from './components/ChatAssistant'
 import { useState, useLayoutEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 function SplashScreen() {
+  const solfa = ['d', 'r', 'm', 'f', 's', 'l', 't'];
+  
   return (
     <motion.div 
       initial={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-      className="fixed inset-0 z-[1000] bg-brand-black flex flex-col items-center justify-center"
+      className="fixed inset-0 z-[1000] bg-[#050505] flex flex-col items-center justify-center overflow-hidden"
     >
-      <motion.div
-        initial={{ scale: 0.9, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-        className="flex flex-col items-center gap-6"
-      >
-        <div className="w-20 h-20 bg-brand-accent rounded-[2.5rem] flex items-center justify-center shadow-[0_0_60px_rgba(16,185,129,0.25)]">
+      {/* Background Ambient Glow */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(16,185,129,0.05)_0%,_transparent_70%)]" />
+      
+      <div className="relative w-64 h-64 flex items-center justify-center">
+        {/* Orbiting Solfa Syllables */}
+        {solfa.map((s, i) => (
+          <motion.div
+            key={s}
+            initial={{ opacity: 0 }}
+            animate={{ 
+              opacity: [0, 1, 0],
+              scale: [0.8, 1.2, 0.8],
+              rotate: 360 
+            }}
+            transition={{ 
+              duration: 3, 
+              repeat: Infinity, 
+              delay: i * 0.2,
+              ease: "easeInOut"
+            }}
+            style={{
+              position: 'absolute',
+              transform: `rotate(${i * (360 / 7)}deg) translateY(-100px)`,
+            }}
+            className="text-brand-accent font-black text-xl italic"
+          >
+            {s}
+          </motion.div>
+        ))}
+
+        {/* The Central Core */}
+        <motion.div
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: [1, 1.1, 1], opacity: 1 }}
+          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+          className="w-24 h-24 bg-brand-accent rounded-[2.5rem] flex items-center justify-center z-10 shadow-[0_0_80px_rgba(16,185,129,0.3)]"
+        >
           <Music className="text-black w-10 h-10" />
-        </div>
-        <div className="flex flex-col items-center gap-3">
-          <h2 className="text-3xl font-black italic tracking-tighter text-white uppercase">AFROSOLFA</h2>
-          <div className="w-32 h-[2px] bg-white/5 rounded-full overflow-hidden">
-            <motion.div 
-              initial={{ x: '-100%' }}
-              animate={{ x: '100%' }}
-              transition={{ repeat: Infinity, duration: 1.2, ease: "easeInOut" }}
-              className="w-full h-full bg-brand-accent"
-            />
-          </div>
-        </div>
+        </motion.div>
+
+        {/* Rippling Rings */}
+        {[1, 2, 3].map((ring) => (
+          <motion.div
+            key={ring}
+            initial={{ scale: 0.5, opacity: 0.5 }}
+            animate={{ scale: 2, opacity: 0 }}
+            transition={{ duration: 2, repeat: Infinity, delay: ring * 0.5, ease: "easeOut" }}
+            className="absolute inset-0 border border-brand-accent/20 rounded-full"
+          />
+        ))}
+      </div>
+
+      <motion.div 
+        initial={{ y: 20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 0.5 }}
+        className="mt-12 text-center"
+      >
+        <h2 className="text-sm font-black tracking-[0.5em] text-white/40 uppercase">Tuning the Soul</h2>
       </motion.div>
     </motion.div>
   )
@@ -45,7 +86,7 @@ function App() {
   useLayoutEffect(() => {
     const isStandalone = window.matchMedia('(display-mode: standalone)').matches || (window.navigator as any).standalone;
     if (isStandalone) setView('dashboard');
-    const timer = setTimeout(() => setIsLoading(false), 2500);
+    const timer = setTimeout(() => setIsLoading(false), 3000);
     return () => clearTimeout(timer);
   }, [])
 
@@ -64,7 +105,7 @@ function App() {
         <div className="min-h-screen bg-brand-black text-white font-sans selection:bg-brand-accent/30 selection:text-white antialiased">
           {view === 'dashboard' ? (
             <div className="min-h-screen flex flex-col md:flex-row overflow-hidden">
-              {/* Pro Sidebar */}
+              {/* Sidebar */}
               <aside className="hidden md:flex w-72 border-r border-white/5 bg-brand-zinc flex-col p-8 z-50">
                 <div className="flex items-center gap-3 mb-14 cursor-pointer group" onClick={() => setView('landing')}>
                   <div className="w-10 h-10 bg-brand-accent rounded-2xl flex items-center justify-center group-hover:rotate-6 transition-transform">
@@ -102,11 +143,10 @@ function App() {
                 </div>
               </aside>
 
-              {/* Content Canvas */}
               <main className="flex-1 overflow-hidden relative bg-mesh-gradient">
                 <div className="h-full flex flex-col">
-                  {/* Mobile Nav Header */}
-                  <header className="md:hidden p-6 border-b border-white/5 flex items-center justify-between bg-brand-zinc/80 backdrop-blur-xl z-[100]">
+                  {/* Mobile Header */}
+                  <header className="md:hidden p-6 border-b border-white/5 bg-brand-zinc/80 backdrop-blur-xl z-[100]">
                     <div className="flex items-center gap-3">
                       <div className="w-8 h-8 bg-brand-accent rounded-lg flex items-center justify-center">
                         <Music className="text-black w-5 h-5" />
@@ -131,7 +171,7 @@ function App() {
                         {activeTab === 'chat' ? (
                           <ChatAssistant isIntegrated={true} />
                         ) : activeTab === 'analyze' ? (
-                          <div className="h-full overflow-y-auto p-6 md:p-12 max-w-5xl mx-auto custom-scrollbar">
+                          <div className="h-full overflow-y-auto p-6 md:p-12 max-w-5xl mx-auto custom-scrollbar w-full">
                             <AudioAnalyzer />
                           </div>
                         ) : (
@@ -197,8 +237,8 @@ function App() {
                   <span className="text-xl font-black italic tracking-tighter">AFROSOLFA</span>
                 </div>
                 <div className="hidden md:flex items-center gap-12 text-[10px] font-black uppercase tracking-[0.2em] text-brand-muted">
-                  <a href="#" className="hover:text-white transition-colors">Analyzer</a>
-                  <a href="#" className="hover:text-white transition-colors">Library</a>
+                  <button onClick={enterApp} className="hover:text-white transition-colors">Analyzer</button>
+                  <button onClick={enterApp} className="hover:text-white transition-colors">Library</button>
                   <button onClick={enterApp} className="bg-white text-black px-8 py-3 rounded-full font-black text-[11px] hover:bg-brand-accent transition-all shadow-lg">Enter App</button>
                 </div>
               </nav>
@@ -239,11 +279,6 @@ function App() {
                         <h3 className="text-4xl font-black tracking-tight mb-4 uppercase">Lightning Fast Analysis</h3>
                         <p className="text-brand-muted max-w-md font-medium text-lg leading-snug">Upload any audio and get key signatures, tempo, and tonic solfa in under 10 seconds.</p>
                       </div>
-                      <div className="mt-12 opacity-30 grayscale group-hover:grayscale-0 transition-all duration-700">
-                         <div className="flex gap-4">
-                            {[1, 2, 3, 4].map(i => <div key={i} className="h-20 w-12 bg-white/10 rounded-xl" />)}
-                         </div>
-                      </div>
                    </div>
                    <div className="md:col-span-4 p-12 rounded-[3.5rem] bg-brand-accent flex flex-col justify-between text-black relative overflow-hidden">
                       <div className="absolute -bottom-10 -right-10 opacity-20"><Music className="w-64 h-64" /></div>
@@ -270,15 +305,7 @@ function App() {
                 </section>
               </main>
 
-              {/* Chat Preview (Floating on Landing) */}
               <ChatAssistant />
-
-              <footer className="py-20 border-t border-white/5 px-8">
-                 <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-10 opacity-20">
-                    <span className="font-black italic text-xl tracking-tighter uppercase">AFROSOLFA</span>
-                    <p className="text-[10px] font-black uppercase tracking-[0.5em]">African Music Intelligence © 2026</p>
-                 </div>
-              </footer>
             </div>
           )}
         </div>
@@ -297,9 +324,6 @@ function App() {
         .custom-scrollbar::-webkit-scrollbar-thumb {
           background: rgba(255,255,255,0.05);
           border-radius: 10px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-          background: rgba(16,185,129,0.2);
         }
       `}</style>
     </>

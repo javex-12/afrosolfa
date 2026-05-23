@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Send, X, Bot, Sparkles, User, Plus, Image as ImageIcon, Link as LinkIcon, FileAudio, ChevronDown } from 'lucide-react';
+import { Send, X, Bot, Sparkles, User, Plus, Image as ImageIcon, Link as LinkIcon, FileAudio } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import axios from 'axios';
 
@@ -189,7 +189,7 @@ export const ChatAssistant: React.FC<ChatAssistantProps> = ({ isIntegrated = fal
         ) : (
           <button
             onClick={() => setIsOpen(true)}
-            className="w-20 h-20 bg-brand-accent rounded-[2.5rem] flex items-center justify-center shadow-[0_0_50px_rgba(16,185,129,0.3)] hover:scale-105 hover:rotate-6 transition-all"
+            className="w-20 h-20 bg-brand-accent rounded-[2.5rem] flex items-center justify-center shadow-[0_0_40px_rgba(16,185,129,0.3)] hover:scale-105 hover:rotate-6 transition-all"
           >
             <Sparkles className="text-black w-8 h-8" />
           </button>
