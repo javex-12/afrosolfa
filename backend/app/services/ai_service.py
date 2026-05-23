@@ -26,4 +26,24 @@ class AIService:
             model="llama3-8b-8192",
             response_format={"type": "json_object"}
         )
+    @staticmethod
+    def chat_response(message: str, context: str = ""):
+        """
+        General music assistant chat.
+        """
+        prompt = f"User Message: {message}\nContext: {context}"
+        
+        chat_completion = client.chat.completions.create(
+            messages=[
+                {
+                    "role": "system",
+                    "content": "You are AfroSolfa AI, a specialized assistant for African/Yoruba Gospel music and Piano learning. You help users with tonic solfa, hymn history, and Yoruba music theory. Keep responses concise, helpful, and culturally aware."
+                },
+                {
+                    "role": "user",
+                    "content": prompt,
+                }
+            ],
+            model="llama3-8b-8192",
+        )
         return chat_completion.choices[0].message.content

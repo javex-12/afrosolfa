@@ -104,6 +104,7 @@ function App() {
           </div>
           <AudioAnalyzer />
         </section>
+        <ChatAssistant />
       </main>
     </div>
   )

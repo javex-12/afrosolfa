@@ -4,7 +4,22 @@ import os
 import uuid
 from app.services.analyzer import AnalyzerService
 
+from app.services.ai_service import AIService
+
 router = APIRouter()
+
+@router.post("/chat")
+async def chat_with_assistant(data: dict):
+    message = data.get("message")
+    context = data.get("context", "")
+    if not message:
+        raise HTTPException(status_code=400, detail="Message is required")
+    
+    try:
+        response = AIService.chat_response(message, context)
+        return {"response": response}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 UPLOAD_DIR = "uploads"
 if not os.path.exists(UPLOAD_DIR):
