@@ -18,3 +18,4 @@ crepe
 demucs
 whisper
 openai
+groq
