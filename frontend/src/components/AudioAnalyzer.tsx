@@ -29,8 +29,8 @@ export const AudioAnalyzer: React.FC = () => {
     formData.append('file', file);
 
     try {
-      // Point to our FastAPI backend
-      const response = await axios.post('http://localhost:8000/api/v1/analyze', formData);
+      const apiUrl = (import.meta as any).env?.VITE_API_URL || 'https://afrosolfa-api.onrender.com/api/v1';
+      const response = await axios.post(`${apiUrl}/analyze`, formData);
       setResult(response.data);
     } catch (err: any) {
       setError(err.response?.data?.detail || 'Something went wrong. Please check if the backend is running.');

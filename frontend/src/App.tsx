@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { 
-  Music, Mic, Settings, LogOut, MessageSquare, Sparkles, Plus, 
+  Music, Mic, Settings, LogOut, MessageSquare, Sparkles, 
   Download, Trash2, Zap, Layers, Globe, Piano 
 } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
