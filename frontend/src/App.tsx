@@ -1,5 +1,5 @@
-import { Music, Search, Piano, Mic, Info, LayoutDashboard, History, Settings, LogOut, MessageSquare, Send, Bot, Sparkles, Upload } from 'lucide-react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { Music, Search, Mic, Settings, LogOut, MessageSquare, Sparkles, Upload } from 'lucide-react'
+import { motion } from 'framer-motion'
 import { AudioAnalyzer } from './components/AudioAnalyzer'
 import { ChatAssistant } from './components/ChatAssistant'
 import { useState } from 'react'
