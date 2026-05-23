@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { Music, Upload, Search, Piano, Mic, Info } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { AudioAnalyzer } from './components/AudioAnalyzer'
