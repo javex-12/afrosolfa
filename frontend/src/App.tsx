@@ -1,8 +1,9 @@
 import { useState } from 'react'
-import { Music, Upload, Search, Piano, Mic, Info, LayoutDashboard, History, Settings, LogOut } from 'lucide-react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { Music, Upload, Search, Piano, Mic, Info, LayoutDashboard, History, Settings, LogOut, Sparkles } from 'lucide-react'
+import { motion } from 'framer-motion'
 import { AudioAnalyzer } from './components/AudioAnalyzer'
 import { ChatAssistant } from './components/ChatAssistant'
+import { PianoKeyboard } from './components/PianoKeyboard'
 
 function App() {
   const [view, setView] = useState<'landing' | 'dashboard'>('landing')

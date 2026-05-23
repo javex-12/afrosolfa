@@ -3,15 +3,6 @@ import { Send, X, Bot, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import axios from 'axios';
 
-// TypeScript fix for Vite env
-interface ImportMetaEnv {
-  readonly VITE_API_URL: string;
-}
-
-interface ImportMeta {
-  readonly env: ImportMetaEnv;
-}
-
 export const ChatAssistant: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<{role: 'user' | 'ai', content: string}[]>([
@@ -37,7 +28,7 @@ export const ChatAssistant: React.FC = () => {
 
     try {
       // @ts-ignore
-      const apiUrl = (import.meta as any).env?.VITE_API_URL || 'http://localhost:8000/api/v1';
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000/api/v1';
       const response = await axios.post(`${apiUrl}/chat`, { message: userMsg });
       setMessages(prev => [...prev, { role: 'ai', content: response.data.response }]);
     } catch (err) {
