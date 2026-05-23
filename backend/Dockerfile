@@ -1,11 +1,11 @@
 FROM python:3.9-slim
 
 # Install system dependencies for audio processing
-RUN apt-get update && apt-get install -y 
-    libsndfile1 
-    ffmpeg 
-    gcc 
-    python3-dev 
+RUN apt-get update && apt-get install -y \
+    libsndfile1 \
+    ffmpeg \
+    gcc \
+    python3-dev \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
@@ -21,5 +21,4 @@ COPY . .
 EXPOSE 8000
 
 # Start the application using uvicorn
-# We use the PORT environment variable provided by Railway
 CMD uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}

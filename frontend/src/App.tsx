@@ -1,14 +1,11 @@
 import { useState } from 'react'
 import { Music, Upload, Search, Piano, Mic, Info } from 'lucide-react'
 import { motion } from 'framer-motion'
-
-import { PianoKeyboard } from './components/PianoKeyboard'
 import { AudioAnalyzer } from './components/AudioAnalyzer'
 
 function App() {
-  const [demoNotes, setDemoNotes] = useState<string[]>(['C', 'E', 'G'])
-
   const scrollToAnalyzer = () => {
+
     document.getElementById('analyzer')?.scrollIntoView({ behavior: 'smooth' })
   }
 
