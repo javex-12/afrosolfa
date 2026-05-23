@@ -1,7 +1,16 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { MessageSquare, Send, X, Bot, User, Sparkles } from 'lucide-react';
+import { Send, X, Bot, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import axios from 'axios';
+
+// TypeScript fix for Vite env
+interface ImportMetaEnv {
+  readonly VITE_API_URL: string;
+}
+
+interface ImportMeta {
+  readonly env: ImportMetaEnv;
+}
 
 export const ChatAssistant: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -27,7 +36,8 @@ export const ChatAssistant: React.FC = () => {
     setLoading(true);
 
     try {
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000/api/v1';
+      // @ts-ignore
+      const apiUrl = (import.meta as any).env?.VITE_API_URL || 'http://localhost:8000/api/v1';
       const response = await axios.post(`${apiUrl}/chat`, { message: userMsg });
       setMessages(prev => [...prev, { role: 'ai', content: response.data.response }]);
     } catch (err) {
@@ -45,35 +55,35 @@ export const ChatAssistant: React.FC = () => {
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            className="mb-4 w-[350px] md:w-[400px] h-[500px] bg-zinc-900/90 backdrop-blur-2xl border border-white/10 rounded-[2rem] shadow-2xl flex flex-col overflow-hidden"
+            className="mb-4 w-[350px] md:w-[400px] h-[500px] bg-zinc-900/90 backdrop-blur-2xl border border-white/10 rounded-[2.5rem] shadow-2xl flex flex-col overflow-hidden"
           >
             {/* Header */}
-            <div className="p-6 border-b border-white/5 bg-emerald-500/10 flex items-center justify-between">
+            <div className="p-8 border-b border-white/5 bg-emerald-500/10 flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-2xl bg-emerald-500 flex items-center justify-center text-black">
+                <div className="w-12 h-12 rounded-2xl bg-emerald-500 flex items-center justify-center text-black shadow-lg shadow-emerald-500/20">
                   <Bot className="w-6 h-6" />
                 </div>
                 <div>
-                  <h4 className="font-bold text-white">AfroSolfa AI</h4>
+                  <h4 className="font-black text-white tracking-tight">AfroSolfa AI</h4>
                   <div className="flex items-center gap-1.5">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                    <span className="text-[10px] text-emerald-500 font-bold uppercase tracking-wider">Online</span>
+                    <span className="text-[10px] text-emerald-500 font-black uppercase tracking-[0.2em]">Live</span>
                   </div>
                 </div>
               </div>
-              <button onClick={() => setIsOpen(false)} className="text-gray-500 hover:text-white transition-colors">
-                <X className="w-5 h-5" />
+              <button onClick={() => setIsOpen(false)} className="w-8 h-8 flex items-center justify-center rounded-full bg-white/5 text-gray-500 hover:text-white transition-colors">
+                <X className="w-4 h-4" />
               </button>
             </div>
 
             {/* Messages */}
-            <div ref={scrollRef} className="flex-1 overflow-y-auto p-6 space-y-4 custom-scrollbar">
+            <div ref={scrollRef} className="flex-1 overflow-y-auto p-6 space-y-6 custom-scrollbar">
               {messages.map((msg, i) => (
                 <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                  <div className={`max-w-[80%] p-4 rounded-2xl text-sm ${
+                  <div className={`max-w-[85%] p-5 rounded-3xl text-sm leading-relaxed ${
                     msg.role === 'user' 
-                    ? 'bg-emerald-500 text-black font-medium rounded-tr-none' 
-                    : 'bg-white/5 text-gray-200 rounded-tl-none border border-white/5'
+                    ? 'bg-emerald-500 text-black font-bold rounded-tr-none shadow-lg shadow-emerald-500/10' 
+                    : 'bg-white/5 text-gray-200 rounded-tl-none border border-white/5 font-medium'
                   }`}>
                     {msg.content}
                   </div>
@@ -81,17 +91,17 @@ export const ChatAssistant: React.FC = () => {
               ))}
               {loading && (
                 <div className="flex justify-start">
-                  <div className="bg-white/5 p-4 rounded-2xl rounded-tl-none border border-white/5 flex gap-1">
-                    <span className="w-1.5 h-1.5 bg-gray-500 rounded-full animate-bounce" />
-                    <span className="w-1.5 h-1.5 bg-gray-500 rounded-full animate-bounce [animation-delay:0.2s]" />
-                    <span className="w-1.5 h-1.5 bg-gray-500 rounded-full animate-bounce [animation-delay:0.4s]" />
+                  <div className="bg-white/5 p-4 rounded-3xl rounded-tl-none border border-white/5 flex gap-1.5">
+                    <span className="w-2 h-2 bg-emerald-500 rounded-full animate-bounce" />
+                    <span className="w-2 h-2 bg-emerald-500 rounded-full animate-bounce [animation-delay:0.2s]" />
+                    <span className="w-2 h-2 bg-emerald-500 rounded-full animate-bounce [animation-delay:0.4s]" />
                   </div>
                 </div>
               )}
             </div>
 
             {/* Input */}
-            <div className="p-4 border-t border-white/5">
+            <div className="p-6 bg-black/20 border-t border-white/5">
               <div className="relative">
                 <input
                   type="text"
@@ -99,11 +109,11 @@ export const ChatAssistant: React.FC = () => {
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && handleSend()}
                   placeholder="Ask about a hymn or key..."
-                  className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-4 pr-12 text-sm focus:outline-none focus:border-emerald-500/50 transition-all"
+                  className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 pl-5 pr-14 text-sm font-medium focus:outline-none focus:border-emerald-500/50 transition-all placeholder:text-gray-600"
                 />
                 <button 
                   onClick={handleSend}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 p-2 bg-emerald-500 text-black rounded-lg hover:bg-emerald-400 transition-all"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-emerald-500 text-black rounded-xl hover:bg-emerald-400 transition-all flex items-center justify-center shadow-lg shadow-emerald-500/20"
                 >
                   <Send className="w-4 h-4" />
                 </button>
@@ -115,9 +125,9 @@ export const ChatAssistant: React.FC = () => {
 
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-16 h-16 bg-emerald-500 rounded-full flex items-center justify-center shadow-2xl shadow-emerald-500/40 hover:scale-110 transition-all active:scale-95 group"
+        className="w-20 h-20 bg-emerald-500 rounded-full flex items-center justify-center shadow-[0_0_40px_rgba(16,185,129,0.3)] hover:scale-105 transition-all active:scale-95 group"
       >
-        <Sparkles className="text-black w-7 h-7 group-hover:rotate-12 transition-transform" />
+        <Sparkles className="text-black w-8 h-8 group-hover:rotate-12 transition-transform" />
       </button>
     </div>
   );
