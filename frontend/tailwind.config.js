@@ -7,20 +7,23 @@ export default {
   theme: {
     extend: {
       colors: {
-        emerald: {
-          50: '#ecfdf5',
-          100: '#d1fae5',
-          200: '#a7f3d0',
-          300: '#6ee7b7',
-          400: '#34d399',
-          500: '#10b981',
-          600: '#059669',
-          700: '#047857',
-          800: '#065f46',
-          900: '#064e3b',
-          950: '#022c22',
-        },
+        brand: {
+          black: '#050505',
+          zinc: '#0f0f0f',
+          accent: '#10b981',
+          'accent-dark': '#065f46',
+          muted: '#737373',
+        }
       },
+      fontFamily: {
+        sans: ['Inter', 'system-ui', 'sans-serif'],
+      },
+      backgroundImage: {
+        'mesh-gradient': "url('https://grainy-gradients.vercel.app/noise.svg'), radial-gradient(circle at top right, rgba(16, 185, 129, 0.1), transparent), radial-gradient(circle at bottom left, rgba(6, 95, 70, 0.1), transparent)",
+      },
+      animation: {
+        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+      }
     },
   },
   plugins: [],
